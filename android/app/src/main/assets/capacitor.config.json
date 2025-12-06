@@ -1,0 +1,13 @@
+{
+	"appId": "com.tictactoe.ai",
+	"appName": "Tic-Tac-Toe AI",
+	"webDir": "templates",
+	"bundledWebRuntime": true,
+	"server": {
+		"url": "http://192.168.0.109:5000",
+		"cleartext": true
+	},
+	"android": {
+		"allowMixedContent": true
+	}
+}
