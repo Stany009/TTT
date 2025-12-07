@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             difficulty,
             player_symbol
         } : { difficulty, player_symbol };
-        
+
         fetch('/game_state', {
             method: 'POST',
             headers: {
@@ -56,13 +56,27 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             gameState = data;
             updateBoard();
             updateStatus();
         })
-        .catch(error => console.error('Error loading game state:', error));
+        .catch(error => {
+            console.error('Error loading game state:', error);
+            // Set default game state if fetch fails
+            gameState = {
+                board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                state: 'ongoing'
+            };
+            updateBoard();
+            updateStatus();
+        });
     }
 
     function updateBoard() {
@@ -101,12 +115,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        const difficulty = difficultySelect.value;
+        const player_symbol = playerSymbolSelect.value;
         fetch('/make_move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ position: cellIndex }),
+            body: JSON.stringify({
+                board: gameState.board,
+                position: cellIndex,
+                difficulty,
+                player_symbol
+            }),
         })
         .then(response => response.json())
         .then(data => {
