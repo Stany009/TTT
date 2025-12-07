@@ -1,0 +1,22 @@
+{
+  "name": "Tic-Tac-Toe AI",
+  "short_name": "TicTacToe",
+  "description": "A beautiful Tic-Tac-Toe game with AI opponent",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffe4e8",
+  "theme_color": "#ff69b4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
