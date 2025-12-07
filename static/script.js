@@ -40,14 +40,29 @@ document.addEventListener('DOMContentLoaded', function() {
     resetBtn.addEventListener('click', resetGame);
 
     function loadGameState() {
-        fetch('/game_state')
-            .then(response => response.json())
-            .then(data => {
-                gameState = data;
-                updateBoard();
-                updateStatus();
-            })
-            .catch(error => console.error('Error loading game state:', error));
+        const difficulty = difficultySelect.value;
+        const player_symbol = playerSymbolSelect.value;
+        const data = gameState.board ? {
+            board: gameState.board,
+            state: gameState.state,
+            difficulty,
+            player_symbol
+        } : { difficulty, player_symbol };
+        
+        fetch('/game_state', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            gameState = data;
+            updateBoard();
+            updateStatus();
+        })
+        .catch(error => console.error('Error loading game state:', error));
     }
 
     function updateBoard() {
