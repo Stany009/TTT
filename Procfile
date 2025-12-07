@@ -1,1 +1,1 @@
-web: python run_production.py
+web: gunicorn --bind 0.0.0.0:$PORT main:app
